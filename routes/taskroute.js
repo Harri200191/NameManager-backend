@@ -1,16 +1,13 @@
 const express = require("express");
 const task_model = require("../model/task_model");
+const {checkDatabaseCleared} = require("../middlewares/TrackDeletion");
 
-const {createTask, getTasks, getTask, getDataFromName, deleteTask, UpdateTask, UpdateTaskSingleField} = require("../controllers/taskcontroller");
+const {createTask, getTasks, getTask, getDataFromName, deleteTask, UpdateTask, UpdateTaskSingleField, ClearDB} = require("../controllers/taskcontroller");
 
 const router = express.Router();
-
-// ANOTHER WAY TO ADD ROUTES
-/* router.route("/").get(getTasks).post(createTask);
-router.route("/:id").get(getTask).delete(deleteTask).put(UpdateTask).patch(UpdateTaskSingleField); */
-
+  
 router.post("/", createTask);
-//router.get("/", getTasks);
+router.get("/create-database", checkDatabaseCleared, ClearDB);
 router.get("/:id", getTask);
 router.get("/", getDataFromName)
 router.delete("/:id", deleteTask);
